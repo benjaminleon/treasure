@@ -12,7 +12,7 @@
   <h1>Phoenix WebSocket Test</h1>
   <input id="messageInput" type="text" placeholder="Type a message" />
   <button id="sendButton">Send</button>
-  <ul id="messages"></ul>
+  <ul id="names"></ul>
 
   <script type="module">
     document.addEventListener("DOMContentLoaded", function () {
@@ -33,12 +33,20 @@
         .receive("timeout", () => console.log("Joining timed out"));
 
 
-      // Handle incoming messages
+      // Handle incoming names
       channel.on("message:new", (payload) => {
-        let msgList = document.getElementById("messages");
-        let msgItem = document.createElement("li");
-        msgItem.innerText = payload.body;
-        msgList.appendChild(msgItem);
+        let namesElement = document.getElementById("names");
+        
+        console.log("payload.body:", payload.body);
+
+        document.getElementById("names").replaceChildren();
+
+        payload.body.forEach(item => {
+          let name = document.createElement("li");
+          name.innerText = item;
+          namesElement.appendChild(name)
+        })
+
       });
 
       // Send message on button click
