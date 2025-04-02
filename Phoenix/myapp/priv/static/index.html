@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoenix WebSocket Test</title>
+  <script src="https://unpkg.com/phoenix"></script>
+</head>
+<body>
+  <h1>Phoenix WebSocket Test</h1>
+  <input id="messageInput" type="text" placeholder="Type a message" />
+  <button id="sendButton">Send</button>
+  <ul id="messages"></ul>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Initialize WebSocket connection
+      let socket = new Phoenix.Socket("/socket");
+      socket.connect();
+
+      // Connect to the "room:lobby" channel
+      let channel = socket.channel("room:lobby", {});
+
+      channel.join()
+        .receive("ok", () => console.log("Connected to room:lobby"))
+        .receive("error", resp => console.log("Unable to join", resp));
+
+      // Handle incoming messages
+      channel.on("message:new", (payload) => {
+        let msgList = document.getElementById("messages");
+        let msgItem = document.createElement("li");
+        msgItem.innerText = payload.body;
+        msgList.appendChild(msgItem);
+      });
+
+      // Send message on button click
+      document.getElementById("sendButton").addEventListener("click", () => {
+        let input = document.getElementById("messageInput");
+        let message = input.value.trim();
+        if (message !== "") {
+          channel.push("message:new", { body: message });
+          input.value = "";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
