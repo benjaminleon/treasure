@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="" />
   <title>Phoenix WebSocket Test</title>
-  <script src="https://unpkg.com/phoenix"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phoenix@1.7.10/priv/static/phoenix.js"></script>
+
 </head>
 <body>
   <h1>Phoenix WebSocket Test</h1>
@@ -12,18 +14,24 @@
   <button id="sendButton">Send</button>
   <ul id="messages"></ul>
 
-  <script>
+  <script type="module">
     document.addEventListener("DOMContentLoaded", function () {
       // Initialize WebSocket connection
       let socket = new Phoenix.Socket("/socket");
+      socket.onError((error) => console.log("Socket error:", error));
+      socket.onClose(() => console.log("Socket closed"));
+      console.log("Attempting to connect socket...");
+
       socket.connect();
 
       // Connect to the "room:lobby" channel
       let channel = socket.channel("room:lobby", {});
-
+      console.log("Attempting to join channel...");
       channel.join()
         .receive("ok", () => console.log("Connected to room:lobby"))
-        .receive("error", resp => console.log("Unable to join", resp));
+        .receive("error", resp => console.log("Unable to join", resp))
+        .receive("timeout", () => console.log("Joining timed out"));
+
 
       // Handle incoming messages
       channel.on("message:new", (payload) => {
@@ -38,6 +46,7 @@
         let input = document.getElementById("messageInput");
         let message = input.value.trim();
         if (message !== "") {
+          console.log("sending", message)
           channel.push("message:new", { body: message });
           input.value = "";
         }

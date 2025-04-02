@@ -10,7 +10,7 @@ defmodule Myapp.Application do
     children = [
       MyappWeb.Telemetry,
       Myapp.Repo,
-      MyApp.Counter,
+      Counter,
       {DNSCluster, query: Application.get_env(:myapp, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Myapp.PubSub},
       # Start a worker by calling: Myapp.Worker.start_link(arg)

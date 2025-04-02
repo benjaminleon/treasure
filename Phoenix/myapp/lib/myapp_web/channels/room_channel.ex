@@ -6,7 +6,13 @@ defmodule MyAppWeb.RoomChannel do
   end
 
   def handle_in("message:new", %{"body" => body}, socket) do
-    broadcast!(socket, "message:new", %{body: body})
+    Counter.add(body)
+    # broadcast!(socket, "message:new", %{body: body})
+    IO.puts("About to call Counter.get_all()")
+    all_names = Counter.get_all()
+    IO.puts("Did call Counter.get_all()")
+    IO.puts("All names: #{inspect(all_names)}")
+    broadcast!(socket, "message:new", %{body: all_names})
     {:noreply, socket}
   end
 end
