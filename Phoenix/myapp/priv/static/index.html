@@ -9,9 +9,10 @@
 
 </head>
 <body>
-  <h1>Phoenix WebSocket Test</h1>
+  <h1>Treasure Hunt, yeeeah!</h1>
   <input id="messageInput" type="text" placeholder="Type a message" />
   <button id="sendButton">Send</button>
+  <h2 id="questStatement" style="display: none;">Quest Revealed, let's begin!</h2>
   <ul id="names"></ul>
 
   <script type="module">
@@ -32,9 +33,15 @@
         .receive("error", resp => console.log("Unable to join", resp))
         .receive("timeout", () => console.log("Joining timed out"));
 
-
       // Handle incoming names
       channel.on("message:new", (payload) => {
+
+        if ((payload.body.length > 0) && (payload.body[0] == "ready")) {
+          console.log("yay!")
+          document.getElementById("questStatement").style.display = 'block';
+        }
+        
+
         let namesElement = document.getElementById("names");
         
         console.log("payload.body:", payload.body);
@@ -57,6 +64,8 @@
           console.log("sending", message)
           channel.push("message:new", { body: message });
           input.value = "";
+          document.getElementById("messageInput").hidden = true;
+          document.getElementById("sendButton").hidden = true;
         }
       });
     });
