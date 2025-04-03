@@ -12,7 +12,7 @@
   <h1>Treasure Hunt, yeeeah!</h1>
   <input id="messageInput" type="text" placeholder="Type a message" />
   <button id="sendButton">Send</button>
-  <h2 id="questStatement" style="display: none;">Quest Revealed, let's begin!</h2>
+  <h2 id="questStatement" style="display: none;">Your party is now large enough to commence the Quest!</h2>
   <ul id="names"></ul>
 
   <script type="module">
@@ -36,9 +36,10 @@
       // Handle incoming names
       channel.on("message:new", (payload) => {
 
-        if ((payload.body.length > 0) && (payload.body[0] == "ready")) {
+        if (payload.body == "start_quest") {
           console.log("yay!")
           document.getElementById("questStatement").style.display = 'block';
+          return;
         }
         
 
@@ -47,7 +48,6 @@
         console.log("payload.body:", payload.body);
 
         document.getElementById("names").replaceChildren();
-
         payload.body.forEach(item => {
           let name = document.createElement("li");
           name.innerText = item;
