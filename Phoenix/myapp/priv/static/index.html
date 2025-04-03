@@ -34,7 +34,7 @@
         .receive("timeout", () => console.log("Joining timed out"));
 
       // Handle incoming names
-      channel.on("message:new", (payload) => {
+      channel.on("message:new_joiner", (payload) => {
 
         if (payload.body == "start_quest") {
           console.log("yay!")
@@ -56,13 +56,17 @@
 
       });
 
+      // Send coordinates
+      console.log("sending coordinates")
+      channel.push("message:coords", { lat: 59.36703474770291, long: 17.997127208607964})
+
       // Send message on button click
       document.getElementById("sendButton").addEventListener("click", () => {
         let input = document.getElementById("messageInput");
         let message = input.value.trim();
         if (message !== "") {
           console.log("sending", message)
-          channel.push("message:new", { body: message });
+          channel.push("message:new_joiner", { body: message });
           input.value = "";
           document.getElementById("messageInput").hidden = true;
           document.getElementById("sendButton").hidden = true;
