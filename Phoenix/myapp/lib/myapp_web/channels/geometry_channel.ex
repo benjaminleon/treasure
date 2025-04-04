@@ -11,6 +11,9 @@ defmodule MyAppWeb.GeometryChannel do
     IO.puts("changes without restarting server")
     all_names = Counter.get_all()
     IO.puts("All names: #{inspect(all_names)}")
+    if length(all_names) >= 3 do
+      broadcast!(socket, "message:quest_progress", %{status: "begin"})
+    end
     broadcast!(socket, "message:all_names", %{body: all_names})
     {:noreply, socket}
   end

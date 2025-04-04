@@ -13,6 +13,7 @@
   <input id="messageInput" type="text" placeholder="Type a message" />
   <button id="sendButton">Send</button>
   <h2 id="questStatement" style="display: none;">Your party is now large enough to commence the Quest!</h2>
+  <h2 id="questComplete" style="display: none;">You did it!</h2>
   <ul id="names"></ul>
 
   <script type="module">
@@ -47,11 +48,13 @@
 
       channel.on("message:quest_progress", (payload) => {
         console.log("quest progress: ", payload)
+        switch (payload['status']) {
+          case "begin":
+            document.getElementById("questStatement").style.display = 'block';  
+          case "success":
+          document.getElementById("questComplete").style.display = 'block';  
+        }
       });
-
-      channel.on("message:quest_start"), (payload) => {
-        document.getElementById("questStatement").style.display = 'block';
-      }
 
       // Send message on button click
       document.getElementById("sendButton").addEventListener("click", () => {
