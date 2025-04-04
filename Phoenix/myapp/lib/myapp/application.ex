@@ -11,6 +11,7 @@ defmodule Myapp.Application do
       MyappWeb.Telemetry,
       Myapp.Repo,
       Counter,
+      MyApp.CoordinatesStore,
       {DNSCluster, query: Application.get_env(:myapp, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Myapp.PubSub},
       # Start a worker by calling: Myapp.Worker.start_link(arg)
