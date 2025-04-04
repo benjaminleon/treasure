@@ -25,11 +25,11 @@
 
       socket.connect();
 
-      // Connect to the "room:lobby" channel
-      let channel = socket.channel("room:lobby", {});
+      // Connect to the "geometry" channel
+      let channel = socket.channel("geometry", {});
       console.log("Attempting to join channel...");
       channel.join()
-        .receive("ok", () => console.log("Connected to room:lobby"))
+        .receive("ok", () => console.log("Connected to 'geometry'"))
         .receive("error", resp => console.log("Unable to join", resp))
         .receive("timeout", () => console.log("Joining timed out"));
 

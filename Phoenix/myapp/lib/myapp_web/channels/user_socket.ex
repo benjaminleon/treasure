@@ -2,7 +2,7 @@ defmodule MyAppWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", MyAppWeb.RoomChannel
+  channel "geometry", MyAppWeb.GeometryChannel
 
   # This function handles connection authorization
   def connect(_params, socket, _connect_info) do

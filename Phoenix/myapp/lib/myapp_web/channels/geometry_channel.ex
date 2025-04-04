@@ -1,7 +1,7 @@
-defmodule MyAppWeb.RoomChannel do
+defmodule MyAppWeb.GeometryChannel do
   use Phoenix.Channel
 
-  def join("room:lobby", _message, socket) do
+  def join("geometry", _message, socket) do
     {:ok, socket}
   end
 
