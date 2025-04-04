@@ -19,7 +19,7 @@ config :myapp, MyappWeb.Endpoint,
     formats: [html: MyappWeb.ErrorHTML, json: MyappWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Myapp.PubSub,
+  pubsub_server: MyApp.PubSub,
   live_view: [signing_salt: "54F3XZNf"]
 
 # Configures the mailer

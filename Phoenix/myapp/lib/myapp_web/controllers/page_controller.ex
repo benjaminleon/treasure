@@ -8,7 +8,6 @@ defmodule MyappWeb.PageController do
   end
 
   def hello(conn, _params) do
-    count = MyApp.Counter.increment()
-    text(conn, "whatsuppp #{count} >D")
+    text(conn, "whatsuppp >D")
   end
 end

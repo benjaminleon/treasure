@@ -13,7 +13,7 @@ defmodule Myapp.Application do
       Counter,
       MyApp.CoordinatesStore,
       {DNSCluster, query: Application.get_env(:myapp, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: Myapp.PubSub},
+      {Phoenix.PubSub, name: MyApp.PubSub},
       # Start a worker by calling: Myapp.Worker.start_link(arg)
       # {Myapp.Worker, arg},
       # Start to serve requests, typically the last entry

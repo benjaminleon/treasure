@@ -45,6 +45,10 @@
         })
       });
 
+      channel.on("message:quest_progress", (payload) => {
+        console.log("quest progress: ", payload)
+      });
+
       channel.on("message:quest_start"), (payload) => {
         document.getElementById("questStatement").style.display = 'block';
       }

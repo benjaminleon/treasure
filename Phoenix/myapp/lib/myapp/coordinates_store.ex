@@ -18,6 +18,10 @@ defmodule MyApp.CoordinatesStore do
     GenServer.call(__MODULE__, :get_all_coordinates)
   end
 
+  def broadcast_quest_progress(status) do
+    Phoenix.PubSub.broadcast(MyApp.PubSub, "quest_progress", {:quest_progress, status})
+  end
+
   # Server Callbacks
   @impl true
   def init(_) do
@@ -57,6 +61,8 @@ defmodule MyApp.CoordinatesStore do
       # Check if points are collinear
       if Collinear.roughly_collinear(coordinates) do
         IO.puts("Points are collinear!")
+        broadcast_quest_progress("success")
+        {:noreply, state}
       else
         IO.puts("Points are not collinear!")
       end
