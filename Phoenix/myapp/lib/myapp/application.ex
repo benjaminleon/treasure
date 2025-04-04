@@ -9,7 +9,6 @@ defmodule Myapp.Application do
   def start(_type, _args) do
     children = [
       MyappWeb.Telemetry,
-      Myapp.Repo,
       Counter,
       MyApp.CoordinatesStore,
       {DNSCluster, query: Application.get_env(:myapp, :dns_cluster_query) || :ignore},
